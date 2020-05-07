@@ -68,7 +68,7 @@ class KeywordLoader(Dataset):
         if target_column in ['SEX', 'CHILD', 'PREFECTURE', 'MARRIED', 'AREA']:
             self.label = self.label - 1
         
-        self.data = normalize(self.data, norm='l1')
+            #self.data = normalize(self.data)
         
     def __getitem__(self, idx):
         #return self.transformer(self.data[idx]), self.transformer(self.label[idx])
@@ -164,8 +164,9 @@ class Model:
             correct += (predicted == label).sum().item()
             
         print ('Accuracy of the model {}'.format(float(correct)/float(total)))
+        return (float(correct)/float(total))
 
-            
+    
 if __name__ == '__main__':
 
     args = get_args()
@@ -188,6 +189,13 @@ if __name__ == '__main__':
     network = Network(1531, 12, 2)
     model = Model(network, train_loader, test_loader, device)
 
+    best_acc = 0
+    
     for e in range(args.num_epochs):
         model.train_one_epoch()
-        model.test()
+        acc = model.test()
+
+        if best_acc < acc:
+            best_acc = acc
+            torch.save(model.network.state_dict(), '/content/drive/My Drive/best_model.ckpt')
+            
