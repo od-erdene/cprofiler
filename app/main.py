@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, request, send_from_directory, jsonify
 from flask_cors import CORS
+from models.model import Model2
 
 # アップロードされる拡張子の制限
 ALLOWED_EXTENSIONS = set(['csv'])
 
 app = Flask(__name__)
 CORS(app)
+model = Model2()
 
 @app.route('/favicon.ico')
 def favicon():
@@ -29,9 +31,7 @@ def upload():
 
     # ファイルのチェック
     if file and allwed_file(file.filename):
-        # print(file)
-
-        return "test"
+        return model.predict(file)
 
     print("unknown error!")
     return "unknown error!"
