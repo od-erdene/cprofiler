@@ -9,6 +9,9 @@ __pycache__/
 # model data
 data/
 
+# input data
+input_data
+
 # Distribution / packaging
 .Python
 build/

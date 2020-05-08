@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, request, send_from_directory, jsonify
 from flask_cors import CORS
+import pandas as pd
 import os
+
+from predict import predict
+from datetime import datetime
+
+abspath = os.path.abspath(__file__)
+dir_name = os.path.dirname(abspath)
 
 # アップロードされる拡張子の制限
 ALLOWED_EXTENSIONS = set(['csv'])
@@ -30,7 +37,13 @@ def upload():
 
     # ファイルのチェック
     if file and allwed_file(file.filename):
-        # print(file)
+        # load and save data
+        df = pd.read_csv(file)
+        date = datetime.today().strftime('%Y_%m_%d')
+        df.to_csv(os.path.join(dir_name, "input_data/data_{}".format(date)), index=False)
+
+        # get predictions
+        print(predict(df))
 
         return "test"
 
