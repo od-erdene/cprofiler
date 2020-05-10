@@ -2,7 +2,7 @@
 from flask import Flask, render_template, request, send_from_directory, jsonify
 from flask_cors import CORS
 
-from models import LGBMModel
+from models.model import LGBMModel
 
 import os
 import sys
@@ -19,7 +19,7 @@ logger = None
 def init_log():
     global logger
     json_handler = logging.StreamHandler(sys.stdout)
-    logging.basicConfig(level=logging.DEBUG, filename=os.path.join(os.path.abspath(__file__),
+    logging.basicConfig(level=logging.DEBUG, filename=os.path.join(os.path.dirname(os.path.abspath(__file__)),
         "logs/log_{}".format(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))))
     logger = logging.getLogger(__name__)
 

@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class LGBMModel(object):
     def __init__(self):
         logger.debug("init start...")
-        dir_name = os.path.abspath(__file__)
+        dir_name = os.path.dirname(os.path.abspath(__file__))
         # loading encoders
         self._os_encoder = joblib.load(os.path.join(dir_name, "params/os_encoder.pkl"))
         self._browser_encoder = joblib.load(os.path.join(dir_name, "params/browser_encoder.pkl"))
