@@ -3,12 +3,23 @@ from flask import Flask, render_template, request, send_from_directory, jsonify
 from flask_cors import CORS
 
 import os
+import sys
+import datetime
+import logging
 
 # アップロードされる拡張子の制限
 ALLOWED_EXTENSIONS = set(['csv'])
 
 app = Flask(__name__)
 CORS(app)
+
+logger = None
+def init_log():
+    global logger
+    json_handler = logging.StreamHandler(sys.stdout)
+    logging.basicConfig(level=logging.DEBUG, filename=os.path.join(os.path.abspath(__file__),
+        "logs/log_{}".format(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))))
+    logger = logging.getLogger(__name__)
 
 @app.route('/favicon.ico')
 def favicon():
@@ -44,4 +55,5 @@ def allwed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 if __name__ == "__main__":
+    init_log()
     app.run(debug=True)
