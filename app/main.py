@@ -2,6 +2,8 @@
 from flask import Flask, render_template, request, send_from_directory, jsonify
 from flask_cors import CORS
 
+import os
+
 # アップロードされる拡張子の制限
 ALLOWED_EXTENSIONS = set(['csv'])
 
