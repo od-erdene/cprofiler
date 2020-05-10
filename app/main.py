@@ -2,6 +2,8 @@
 from flask import Flask, render_template, request, send_from_directory, jsonify
 from flask_cors import CORS
 
+from models import LGBMModel
+
 import os
 import sys
 import datetime
@@ -9,7 +11,7 @@ import logging
 
 # アップロードされる拡張子の制限
 ALLOWED_EXTENSIONS = set(['csv'])
-
+model = LGBMModel()
 app = Flask(__name__)
 CORS(app)
 
@@ -31,23 +33,20 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    print("upload")
     # ファイルがなかった場合の処理
     if 'file' in request.files:
-        return "ファイルがありません"
+        return jsonify(status="ファイルがありません")
 
     # データの取り出し
     file = request.files['csv_file']
-    print("file")
-
+    
     # ファイルのチェック
     if file and allwed_file(file.filename):
-        # print(file)
+        response = model.predict(file)
 
-        return "test"
+        return jsonify(status="ok", val=response)
 
-    print("unknown error!")
-    return "unknown error!"
+    return jsonify(status="unknown error!")
 
 def allwed_file(filename):
     # .があるかどうかのチェックと、拡張子の確認
