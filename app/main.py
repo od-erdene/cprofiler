@@ -10,6 +10,8 @@ from datetime import datetime
 abspath = os.path.abspath(__file__)
 dir_name = os.path.dirname(abspath)
 
+import os
+
 # アップロードされる拡張子の制限
 ALLOWED_EXTENSIONS = set(['csv'])
 
