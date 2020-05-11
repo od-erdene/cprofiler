@@ -11,7 +11,7 @@ import logging
 # アップロードされる拡張子の制限
 ALLOWED_EXTENSIONS = set(['csv'])
 model = LGBMModel()
-api = Blueprint('api', __name__)
+cprofiler = Blueprint('cprofiler', __name__)
 
 logger = None
 def init_log():
@@ -21,15 +21,15 @@ def init_log():
         "logs/log_{}".format(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))))
     logger = logging.getLogger(__name__)
 
-@api.route('/favicon.ico')
+@cprofiler.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/x-icon')
 
-@api.route('/')
+@cprofiler.route('/')
 def index():
     return render_template("index.html")
 
-@api.route('/upload', methods=['POST'])
+@cprofiler.route('/upload', methods=['POST'])
 def upload():
     # ファイルがなかった場合の処理
     if 'file' in request.files:
