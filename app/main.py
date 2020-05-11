@@ -55,7 +55,7 @@ def allwed_file(filename):
 
 if __name__ == "__main__":
     init_log()
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=81)
 
 def get_app():
     return app    
