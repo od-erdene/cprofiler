@@ -41,8 +41,6 @@ def upload():
     # ファイルのチェック
     if file and allwed_file(file.filename):
         response = model.predict(file)
-        print("response")
-        print("HELLO")
 
         return jsonify(status="ok", val=response)
     
