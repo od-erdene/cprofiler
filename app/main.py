@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template, request, send_from_directory, jsonify
-from flask_cors import CORS
+from flask import Flask, render_template, request, send_from_directory, jsonify, Blueprint
 
 from models.model import LGBMModel
 
@@ -12,8 +11,7 @@ import logging
 # アップロードされる拡張子の制限
 ALLOWED_EXTENSIONS = set(['csv'])
 model = LGBMModel()
-app = Flask(__name__)
-CORS(app)
+api = Blueprint('api', __name__)
 
 logger = None
 def init_log():
@@ -23,15 +21,15 @@ def init_log():
         "logs/log_{}".format(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))))
     logger = logging.getLogger(__name__)
 
-@app.route('/favicon.ico')
+@api.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/x-icon')
 
-@app.route('/')
+@api.route('/')
 def index():
     return render_template("index.html")
 
-@app.route('/upload', methods=['POST'])
+@api.route('/upload', methods=['POST'])
 def upload():
     # ファイルがなかった場合の処理
     if 'file' in request.files:
@@ -43,19 +41,14 @@ def upload():
     # ファイルのチェック
     if file and allwed_file(file.filename):
         response = model.predict(file)
+        print("response")
+        print("HELLO")
 
         return jsonify(status="ok", val=response)
-
+    
     return jsonify(status="unknown error!")
 
 def allwed_file(filename):
     # .があるかどうかのチェックと、拡張子の確認
     # OKなら１、だめなら0
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-if __name__ == "__main__":
-    init_log()
-    app.run(host='0.0.0.0')
-
-def get_app():
-    return app    
