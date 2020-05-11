@@ -4,7 +4,8 @@ function upload(){
 
     // POSTでアップロード
     $.ajax({
-        url  : "http://127.0.0.1:5000/upload",
+        // url  : "http://127.0.0.1:5000/upload",
+        url  : "http://10.146.0.2:12345/upload",
         type : "POST",
         data : formdata,
         timeout: 5000,
