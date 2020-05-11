@@ -5,7 +5,7 @@ function upload(){
     // POSTでアップロード
     $.ajax({
         // url  : "http://127.0.0.1:5000/cprofiler",
-        url  : "http://128.199.177.160/cprofiler",
+        url  : "http://178.128.126.46/cprofiler",
         type : "POST",
         data : formdata,
         timeout: 15000,
