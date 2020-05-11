@@ -121,3 +121,6 @@ dmypy.json
 
 # Mac finder
 .DS_Store
+
+# logs
+logs/

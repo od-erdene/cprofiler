@@ -42,7 +42,7 @@ class LGBMModel(object):
         logging.debug("3. Done preprocessing!")
         return df
 
-    def _predict_gender(df):
+    def _predict_gender(self, df):
         logging.debug("4. Predicting gender....")
         preds = self._gender_model.predict(df)
         logging.debug("5. Done predicting gender!")
