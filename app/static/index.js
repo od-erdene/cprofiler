@@ -13,15 +13,14 @@ function upload(){
         processData : false
     }).then(
         data => {
-            console.log('success!'+ data);
-            console.log('test!'+ data.status);
-            console.log('test!'+ data["status"]);
             if (data.status === "ok") {
                 $('#result').text("");
                 $('#male').text(data.val.sex.male);
                 $('#female').text(data.val.sex.female);
             } else {
                 $('#result').text(data.status);
+                $('#male').text("");
+                $('#female').text("");
             }
         },
         error => console.log('Error : ' + error)
