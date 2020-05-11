@@ -14,7 +14,13 @@ function upload(){
     }).then(
         data => {
             console.log('success!'+ data);
-            $('#result').text(data);
+            if (data.status === "ok") {
+                $('#result').text("");
+                $('#male').text(data.sex.male);
+                $('#female').text(data.sex.female);
+            } else {
+                $('#result').text(data.status);
+            }
         },
         error => console.log('Error : ' + error)
     );
