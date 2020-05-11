@@ -16,7 +16,10 @@ cprofiler % pip install -r app/requirements.txt
 cprofiler % python app/main.py 
 ```
 
-
+- lightgbm install
+```
+https://github.com/Microsoft/LightGBM/blob/master/docs/Installation-Guide.rst
+```
 
 
 
