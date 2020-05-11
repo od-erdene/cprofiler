@@ -55,4 +55,4 @@ def allwed_file(filename):
 
 if __name__ == "__main__":
     init_log()
-    app.run(debug=False, host= '10.146.0.2:12345')
+    app.run(debug=False, host='0.0.0.0')
