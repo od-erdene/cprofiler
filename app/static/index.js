@@ -4,8 +4,8 @@ function upload(){
 
     // POSTでアップロード
     $.ajax({
-        // url  : "http://127.0.0.1:5000/cprofiler/upload",
-        url  : "http://178.128.126.46/cprofiler/upload",
+        url  : "http://127.0.0.1:5000/cprofiler/upload",
+        // url  : "http://178.128.126.46/cprofiler/upload",
         type : "POST",
         data : formdata,
         timeout: 15000,
@@ -43,6 +43,6 @@ function upload(){
                 $('#age').text("");
             }
         },
-        error => console.log('Error : ' + error)
+        error => console.log('Error : ', error)
     );
 }
