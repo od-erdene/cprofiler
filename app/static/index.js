@@ -8,7 +8,7 @@ function upload(){
         // url  : "http://178.128.126.46/cprofiler/upload",
         type : "POST",
         data : formdata,
-        timeout: 15000,
+        timeout: 100000,
         enctype: 'multipart/form-data',
         contentType : false,
         processData : false
