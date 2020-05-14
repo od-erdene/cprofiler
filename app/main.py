@@ -8,6 +8,8 @@ import sys
 import datetime
 import logging
 
+from appserver import app
+
 # アップロードされる拡張子の制限
 ALLOWED_EXTENSIONS = set(['csv'])
 model = LGBMModel()
