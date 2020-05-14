@@ -12,7 +12,7 @@ import logging
 # アップロードされる拡張子の制限
 ALLOWED_EXTENSIONS = set(['csv'])
 model = LGBMModel()
-cprofiler = Blueprint('cprofiler', __name__)
+cprofiler = Blueprint('cprofiler', __name__, template_folder='templates', static_folder='static', static_url_path='static')
 
 logger = None
 def init_log():
@@ -24,7 +24,7 @@ def init_log():
 
 @cprofiler.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/x-icon')
+    return send_from_directory(os.path.join(cprofiler.root_path, 'static'), 'favicon.ico', mimetype='image/x-icon')
 
 @cprofiler.route('/')
 def index():
