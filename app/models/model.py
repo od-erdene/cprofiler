@@ -16,6 +16,8 @@ class LGBMModel(object):
         self._browser_encoder = joblib.load(os.path.join(dir_name, "params/browser_encoder.pkl"))
         self._device_encoder = joblib.load(os.path.join(dir_name, "params/device_encoder.pkl"))
         self._gender_model = joblib.load(os.path.join(dir_name, "params/gender_lightgbm.pkl"))
+        self._marriage_model = joblib.load(os.path.join(dir_name, "params/MARRIED_model.pkl"))
+        self._children_model = joblib.load(os.path.join(dir_name, "params/CHILD_model.pkl"))
 
         logger.debug("init end.")
 
@@ -48,12 +50,33 @@ class LGBMModel(object):
         logging.debug("5. Done predicting gender!")
         return preds
 
+    def _predict_marriage(self, df):
+        logging.debug("6. Predicting marriage....")
+        preds = self._marriage_model.predict(df)
+        logging.debug("7. Done predicting marriage!")
+        return preds
+
+    def _predict_children(self, df):
+        logging.debug("8. Predicting children....")
+        preds = self._children_model.predict(df)
+        logging.debug("9. Done predicting children!")
+        return preds    
+
     def predict(self, csv_file):
         logging.debug("1. Starting prediction....")
         df_clean = self._preprocess(pd.read_csv(csv_file))
 
         gender_preds = self._predict_gender(df_clean)
+        marriage_preds = self._predict_marriage(df_clean)
+        children_preds = self._predict_children(df_clean)
+
         gender_dist = Counter(gender_preds)
+        marriage_dist = Counter(marriage_preds)
+        children_dist = Counter(children_preds)
+        print("AAAAAAAAAAAAAAAAAAAAAA")
+        print(gender_dist)
+        print(marriage_dist)
+        print(children_dist)
 
         result = {
             "sex":{
@@ -95,12 +118,12 @@ class LGBMModel(object):
                 "九州地方" : "14%"
             },
             "married":{
-                "未婚" : "75%",
-                "既婚" : "25%"
+                "未婚" : str(int((marriage_dist[0]/(marriage_dist[0]+marriage_dist[1]))*100))+"%",
+                "既婚" : str(int((marriage_dist[1]/(marriage_dist[0]+marriage_dist[1]))*100))+"%"
             },
             "child":{
-                "子供なし" : "37%",
-                "子供あり" : "63%"
+                "子供なし" : str(int((children_dist[0]/(children_dist[0]+children_dist[1]))*100))+"%",
+                "子供あり" : str(int((children_dist[1]/(children_dist[0]+children_dist[1]))*100))+"%"
             },
             "prefecture":{
                 "北海道" : "3%", 
