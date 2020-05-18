@@ -13,7 +13,7 @@ cprofiler % pip install -r app/requirements.txt
 
 - run
 ```
-cprofiler % python app/main.py 
+cprofiler % python appserver.py 
 ```
 
 - lightgbm install
