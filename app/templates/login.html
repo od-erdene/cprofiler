@@ -6,13 +6,20 @@
     <link rel="shortcut icon" href="{{url_for('cprofiler.static', filename='favicon.ico')}}" type="image/x-icon">
     <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
     <link rel="stylesheet" type="text/css" href="static/login.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
-      $("#login-button").click(function(event){
-                event.preventDefault();
-            
-            $('form').fadeOut(500);
-            $('.wrapper').addClass('form-success');
-        });
+      function login(){
+          $.ajax({
+            url: "http://127.0.0.1:5000/cprofiler/login",
+            type: "POST",
+            dataType: "json",
+            data: {
+                username: $("#username").val(),
+                password: $("#password").val()
+            }
+          }).then(data => console.log('data : ', data), 
+          error => console.log('Error : ', error));
+      };
     </script>
   </head>
   <body>
@@ -21,9 +28,9 @@
             <h1>Welcome to DMP Profiler</h1>
             
             <form class="form">
-                <input type="text" placeholder="Username">
-                <input type="password" placeholder="Password">
-                <button type="submit" id="login-button">Login</button>
+                <input type="text" placeholder="Username" id="username" required>
+                <input type="password" placeholder="Password" id="password" required>
+                <button type="submit" onclick="login()">Login</button>
             </form>
         </div>
         
@@ -42,28 +49,3 @@
     </div>
   </body>
 </html>
-
-<div class="wrapper">
-    <div class="container">
-        <h1>Welcome to DMP Profiler</h1>
-        
-        <form class="form">
-            <input type="text" placeholder="Username">
-            <input type="password" placeholder="Password">
-            <button type="submit" id="login-button">Login</button>
-        </form>
-    </div>
-    
-    <ul class="bg-bubbles">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-    </ul>
-</div>

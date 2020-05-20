@@ -32,6 +32,7 @@ def favicon():
 # it to the caller however you choose.
 @cprofiler.route('/login', methods=['POST'])
 def login():
+    print("test")
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
