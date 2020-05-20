@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Cookie Profiler Demo</title>
+    <title>DMP Profiler Demo</title>
     <link rel="shortcut icon" href="{{url_for('cprofiler.static', filename='favicon.ico')}}" type="image/x-icon">
     <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -13,8 +13,8 @@
 
       // POSTでアップロード
       $.ajax({
-          // url  : "http://127.0.0.1:5000/cprofiler/upload",
-          url  : "http://178.128.126.46/cprofiler/upload",
+          url  : "http://127.0.0.1:5000/cprofiler/upload",
+        //   url  : "http://178.128.126.46/cprofiler/upload",
           type : "POST",
           data : formdata,
           timeout: 1000000,
