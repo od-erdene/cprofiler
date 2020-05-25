@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, request, send_from_directory, jsonify, Blueprint
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 
 from models.model import LGBMModel
 
@@ -26,12 +27,41 @@ def init_log():
 def favicon():
     return send_from_directory(os.path.join(cprofiler.root_path, 'static'), 'favicon.ico', mimetype='image/x-icon')
 
+# Provide a method to create access tokens. The create_access_token()
+# function is used to actually generate the token, and you can return
+# it to the caller however you choose.
+@cprofiler.route('/login', methods=['POST'])
+def login():
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
+
+    print(request.json)
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
+    if not username:
+        return jsonify({"msg": "Missing username parameter"}), 400
+    if not password:
+        return jsonify({"msg": "Missing password parameter"}), 400
+    
+    # if username != 'dtc' or password != 'P@ssw0rd!':
+    if username != 'dtc' or password != 'pas':
+        return jsonify({"msg": "Bad username or password"}), 401
+    
+    # Identity can be any data that is json serializable
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token), 200
+
 @cprofiler.route('/')
 def index():
+    if get_jwt_identity() is None:
+        return render_template("login.html")
     return render_template("index.html")
 
 @cprofiler.route('/upload', methods=['POST'])
+@jwt_required
 def upload():
+    if get_jwt_identity() is None:
+        return render_template("login.html")
     # ファイルがなかった場合の処理
     if 'file' in request.files:
         return jsonify(status="ファイルがありません")

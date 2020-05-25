@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>DMP Profiler Demo</title>
+    <link rel="shortcut icon" href="{{url_for('cprofiler.static', filename='favicon.ico')}}" type="image/x-icon">
+    <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
+    <link rel="stylesheet" type="text/css" href="static/login.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        var jwt = "";
+        function login(){
+          $.ajax({
+            url: "http://127.0.0.1:5000/cprofiler/login",
+            type: "POST",
+            dataType: "JSON",
+            contentType: 'application/JSON',
+            data: JSON.stringify({
+                username: $("#username").val(),
+                password: $("#password").val()
+            })
+          }).then(
+            data => {
+                jwt = data.access_token;
+                $.ajax({
+                    url: "http://127.0.0.1:5000/cprofiler",
+                    type: "GET",
+                    beforeSend: function (xhr) {   //Include the bearer token in header
+                        xhr.setRequestHeader("Authorization", 'Bearer '+ jwt);
+                    }
+                });
+            }, 
+            error => console.log("Error : ", error)
+          );
+        };
+    </script>
+  </head>
+  <body>
+    <div class="wrapper">
+        <div class="container">
+            <h1>Welcome to DMP Profiler</h1>
+            
+            <form class="form">
+                <input type="text" placeholder="Username" id="username" required>
+                <input type="password" placeholder="Password" id="password" required>
+                <button type="submit" onclick="login()">Login</button>
+            </form>
+        </div>
+        
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+  </body>
+</html>
