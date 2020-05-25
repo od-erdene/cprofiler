@@ -32,20 +32,21 @@ def favicon():
 # it to the caller however you choose.
 @cprofiler.route('/login', methods=['POST'])
 def login():
-    print("test")
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
+    print(request.json)
     username = request.json.get('username', None)
     password = request.json.get('password', None)
     if not username:
         return jsonify({"msg": "Missing username parameter"}), 400
     if not password:
         return jsonify({"msg": "Missing password parameter"}), 400
-
-    if username != 'dtc' or password != 'P@ssw0rd!':
+    
+    # if username != 'dtc' or password != 'P@ssw0rd!':
+    if username != 'dtc' or password != 'pas':
         return jsonify({"msg": "Bad username or password"}), 401
-
+    
     # Identity can be any data that is json serializable
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token), 200

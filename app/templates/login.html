@@ -8,18 +8,31 @@
     <link rel="stylesheet" type="text/css" href="static/login.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
-      function login(){
+        var jwt = "";
+        function login(){
           $.ajax({
             url: "http://127.0.0.1:5000/cprofiler/login",
             type: "POST",
-            dataType: "json",
-            data: {
+            dataType: "JSON",
+            contentType: 'application/JSON',
+            data: JSON.stringify({
                 username: $("#username").val(),
                 password: $("#password").val()
-            }
-          }).then(data => console.log('data : ', data), 
-          error => console.log('Error : ', error));
-      };
+            })
+          }).then(
+            data => {
+                jwt = data.access_token;
+                $.ajax({
+                    url: "http://127.0.0.1:5000/cprofiler",
+                    type: "GET",
+                    beforeSend: function (xhr) {   //Include the bearer token in header
+                        xhr.setRequestHeader("Authorization", 'Bearer '+ jwt);
+                    }
+                });
+            }, 
+            error => console.log("Error : ", error)
+          );
+        };
     </script>
   </head>
   <body>
