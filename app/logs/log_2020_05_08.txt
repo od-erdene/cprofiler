@@ -1,0 +1,4 @@
+INFO:werkzeug: * Detected change in '/Users/bilguun/Desktop/cprofiler/app/predict.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 151-530-434
